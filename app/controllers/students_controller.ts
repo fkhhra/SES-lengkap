@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Student from '#models/student'
-import { CreateStudentValidator, UpdateStudentValidator } from '#validators/student_validator'
+import { CreateStudentValidator, UpdateStudentValidator, DeleteBookValidator } from '#validators/student'
 
 export default class StudentsController {
   public async index({ response }: HttpContext) {
@@ -12,8 +12,8 @@ export default class StudentsController {
   }
 
   public async store({ request, response }: HttpContext) {
-    const data = await request.validate({ schema: CreateStudentValidator })
-    const student = await Student.create(data)
+    const payload = await request.validateUsing( CreateStudentValidator)
+    const student = await Student.create(payload)
 
     return response.created({
       message: 'Student created successfully',
@@ -39,8 +39,8 @@ export default class StudentsController {
       return response.notFound({ message: 'Student not found' })
     }
 
-    const data = await request.validate({ schema: UpdateStudentValidator })
-    student.merge(data)
+    const payload = await request.validateUsing( UpdateStudentValidator )
+    student.merge(payload)
     await student.save()
 
     return response.ok({
@@ -49,16 +49,16 @@ export default class StudentsController {
     })
   }
 
-  public async destroy({ params, response }: HttpContext) {
-    const student = await Student.find(params.id)
-    if (!student) {
-      return response.notFound({ message: 'Student not found' })
-    }
+public async destroy({ params, response }: HttpContext) {
+  // Validate params using VineJS validator
+  const { id } = await DeleteBookValidator.validate(params)
 
-    await student.delete()
-
-    return response.ok({
-      message: 'Student deleted successfully',
-    })
+  const student = await Student.find(id)
+  if (!student) {
+    return response.notFound({ message: 'Student not found' })
   }
+  
+  await student.delete()
+  return response.ok({ message: 'Student deleted successfully' })
+}
 }

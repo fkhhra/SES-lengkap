@@ -11,6 +11,8 @@ import BooksController from '#controllers/books_controller'
 import StudentsController from '#controllers/students_controller'
 import router from '@adonisjs/core/services/router'
 
+
+
 router.get('/', async () => {
   return {
     hello: 'paryy',
@@ -26,5 +28,9 @@ router.get('/', async () => {
 // })
 // .prefix('/book')
  
-router.resource('book', BooksController).apiOnly()
-router.resource('student',StudentsController ).apiOnly()
+// router.resource('book', BooksController).apiOnly()
+// router.resource('student',StudentsController ).apiOnly()
+router.group(() => {
+  router.resource('book', BooksController).apiOnly()
+  router.resource('students', StudentsController).apiOnly()
+}).prefix('/api')

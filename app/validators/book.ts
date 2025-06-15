@@ -1,11 +1,23 @@
-import { schema, rules } from '@adonisjs/validator'
+import vine from '@vinejs/vine'
 
-export const CreateBookValidator = schema.create({
-  title: schema.string({}, [rules.maxLength(255)]),
-  author: schema.string({}, [rules.maxLength(255)]),
-})
+export const CreateBookValidator = vine.compile(
+  vine.object({
+    title: vine.string().trim().minLength(3).maxLength(10),
+    author: vine.string().trim().minLength(3).maxLength(10),
+    category: vine.string().trim().minLength(3).maxLength(10),
+  })
+)
 
-export const UpdateBookValidator = schema.create({
-  title: schema.string.optional({}, [rules.maxLength(255)]),
-  author: schema.string.optional({}, [rules.maxLength(255)]),
-})
+export const UpdateBookValidator = vine.compile(
+  vine.object({
+    title: vine.string().trim().minLength(3).maxLength(10).optional(),
+    author: vine.string().trim().minLength(3).maxLength(10).optional(),
+    category: vine.string().trim().minLength(3).maxLength(10),
+  })
+)
+
+export const DeleteBookValidator = vine.compile(
+  vine.object({
+    id: vine.number().positive(),
+  })
+)
