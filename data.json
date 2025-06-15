@@ -1,0 +1,28 @@
+{
+  "books": [
+    {
+      "id": 1746805015991,
+      "title": "larkar pelangi",
+      "author": "andrea hirata",
+      "category": "fiksi "
+    },
+    {
+      "id": 1746805032418,
+      "title": "hahahahahahalooo",
+      "author": "saya",
+      "category": "fiksi"
+    },
+    {
+      "id": 1746805379617,
+      "title": "bumi",
+      "author": "tere liye",
+      "category": "fiksi"
+    },
+    {
+      "id": 1747621361347,
+      "title": "fahri",
+      "author": "jilan",
+      "category": "non fiksi"
+    }
+  ]
+}
